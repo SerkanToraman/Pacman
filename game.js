@@ -9,6 +9,7 @@ let createRect = (x, y, width, height, color) => {
 };
 
 let fps = 30;
+let pacman;
 let oneBlockSize = 20;
 let wallColor = "yellow";
 let wallSpaceWidth = oneBlockSize / 1.4;
@@ -47,7 +48,7 @@ let map = [
 ];
 
 let gameLoop = () => {
-  //update();
+  update();
   draw();
 };
 
@@ -134,3 +135,22 @@ let createNewPacman = () => {
 
 createNewPacman();
 gameLoop();
+
+window.addEventListener("keydown", (event) => {
+  let k = event.keyCode;
+  setTimeout(() => {
+    if (k == 37 || k == 65) {
+      // this is for left you can checl the values on https://keyjs.dev/
+      pacman.nextDirection = DIRECTION_LEFT;
+    } else if (k == 38 || k == 87) {
+      // this is for up
+      pacman.nextDirection = DIRECTION_UP;
+    } else if (k == 39 || k == 68) {
+      //this is for right
+      pacman.nextDirection = DIRECTION_RIGHT;
+    } else if (k == 40 || k == 83) {
+      // this is for down
+      pacman.nextDirection = DIRECTION_DOWN;
+    }
+  }, 1);
+});

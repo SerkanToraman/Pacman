@@ -6,6 +6,7 @@ class Pacman {
     this.height = height;
     this.speed = speed;
     this.direction = DIRECTION_RIGHT;
+    this.nextDirection = this.direction;
     this.currentFrame = 1;
     this.frameCount = 7; // animation.gif frame count; 7 packmen
 
@@ -19,6 +20,7 @@ class Pacman {
     this.moveForwards();
     if (this.checkCollision()) {
       this.moveBackwards();
+      return;
     }
   }
   eat() {}
@@ -60,9 +62,9 @@ class Pacman {
   checkCollision() {
     if (
       map[this.getMapY()][this.getMapX()] == 1 ||
-      map[this.getMapYrightSize()][this.getMapX()] == 1 ||
-      map[this.getMapY()][this.getMapXrightSize] == 1 ||
-      map[this.getMapYrightSize][this.getMapXrightSize] == 1
+      map[this.getMapYRightSide()][this.getMapX()] == 1 ||
+      map[this.getMapY()][this.getMapXRightSide()] == 1 ||
+      map[this.getMapYRightSide()][this.getMapXRightSide()] == 1
     ) {
       return true;
     }
@@ -71,7 +73,15 @@ class Pacman {
 
   checkGhostCollison() {}
 
-  changeDirectionIfPossible() {}
+  changeDirectionIfPossible() {
+    if (this.direction == this.nextDirection) return;
+    let tempDirection = this.direction;
+    this.direction = this.nextDirection;
+    this.moveForwards();
+    if (this.checkCollision()) {
+      this.moveBackwards();
+    }
+  }
 
   changeAnimation() {
     this.currentFrame =
@@ -91,7 +101,7 @@ class Pacman {
     );
     canvasContext.drawImage(
       pacmanFrames,
-      (this.currentFrame - 1) / oneBlockSize,
+      (this.currentFrame - 1) * oneBlockSize,
       0,
       oneBlockSize,
       oneBlockSize,
@@ -111,10 +121,10 @@ class Pacman {
     return parseInt(this.y / oneBlockSize);
   }
 
-  getMapXrightSize() {
-    return parseInt((this.x * 0.99999 * oneBlockSize) / oneBlockSize);
+  getMapXRightSide() {
+    return parseInt((this.x + 0.99999 * oneBlockSize) / oneBlockSize);
   }
-  getMapYrightSize() {
-    return parseInt((this.y * 0.99999 * oneBlockSize) / oneBlockSize);
+  getMapYRightSide() {
+    return parseInt((this.y + 0.99999 * oneBlockSize) / oneBlockSize);
   }
 }
