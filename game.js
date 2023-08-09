@@ -15,6 +15,9 @@ let wallColor = "yellow";
 let wallSpaceWidth = oneBlockSize / 1.4;
 let wallOffset = (oneBlockSize - wallSpaceWidth) / 2;
 let wallInnerColor = "black";
+//let foodColor = "#FEB897";
+let foodColor = "white";
+let score = 0;
 
 const DIRECTION_RIGHT = 4;
 const DIRECTION_UP = 3;
@@ -32,7 +35,7 @@ let map = [
   [1, 1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1],
   [0, 0, 0, 0, 1, 2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 2, 1, 0, 0, 0, 0],
   [1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 2, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1],
-  [2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2],
+  [1, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 1],
   [1, 1, 1, 1, 1, 2, 1, 2, 1, 2, 2, 2, 1, 2, 1, 2, 1, 1, 1, 1, 1],
   [0, 0, 0, 0, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 0, 0, 0, 0],
   [0, 0, 0, 0, 1, 2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 2, 1, 0, 0, 0, 0],
@@ -53,15 +56,40 @@ let gameLoop = () => {
 };
 
 let update = () => {
-  //todo
   pacman.moveProcess();
+  pacman.eat();
+};
+
+let drawFoods = () => {
+  for (let i = 0; i < map.length; i++) {
+    for (let j = 0; j < map[0].length; j++) {
+      if (map[i][j] == 2) {
+        createRect(
+          j * oneBlockSize + oneBlockSize / 3,
+          i * oneBlockSize + oneBlockSize / 3,
+          oneBlockSize / 3,
+          oneBlockSize / 3,
+          foodColor
+        );
+      }
+    }
+  }
+};
+
+let drawScore = () => {
+  canvasContext.font = "40px Emulogic";
+  canvasContext.fillStyle = "white";
+  canvasContext.fillText("Score: " + score,
+   0,
+   oneBlockSize * (map.length + 1.6));
 };
 
 let draw = () => {
   createRect(0, 0, canvas.width, canvas.height, "black");
-  //todo
   drawWalls();
+  drawFoods();
   pacman.draw();
+  drawScore();
 };
 
 let gameInterval = setInterval(gameLoop, 1000 / fps);

@@ -23,7 +23,16 @@ class Pacman {
       return;
     }
   }
-  eat() {}
+  eat() {
+    for (let i = 0; i < map.length; i++) {
+      for (let j = 0; j < map[0].length; j++) {
+        if (map[i][j] == 2 && this.getMapX() == j && this.getMapY() == i) {
+          map[i][j] = 3;
+          score++;
+        }
+      }
+    }
+  }
 
   moveBackwards() {
     switch (this.direction) {
@@ -79,6 +88,9 @@ class Pacman {
     this.direction = this.nextDirection;
     this.moveForwards();
     if (this.checkCollision()) {
+      this.moveBackwards();
+      this.direction = tempDirection;
+    } else {
       this.moveBackwards();
     }
   }
