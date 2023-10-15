@@ -78,6 +78,7 @@ class Pacman {
       return true;
     }
     return false;
+   
   }
 
   checkGhostCollison() {
@@ -91,6 +92,7 @@ class Pacman {
       }
     }
     return false;
+     //add this
   }
 
   changeDirectionIfPossible() {
