@@ -27,7 +27,7 @@ class Ghost {
     );
     setInterval(() => {
       this.changeRandomDirection();
-    }, 100);
+    }, 5000);
   }
 
   changeRandomDirection() {
@@ -117,6 +117,7 @@ class Ghost {
       this.direction = tempDirection;
       return;
     }
+
     this.moveForwards();
     if (this.checkCollision()) {
       this.moveBackwards();
@@ -125,6 +126,7 @@ class Ghost {
       this.moveBackwards();
     }
   }
+
   calculatedNewDirection(map, destX, destY) {
     let mp = [];
     for (let i = 0; i < map.length; i++) {
@@ -149,6 +151,7 @@ class Ghost {
         }
       }
     }
+
     return DIRECTION_UP; //Default
   }
 

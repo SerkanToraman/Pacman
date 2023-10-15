@@ -19,6 +19,7 @@ let foodColor = "white";
 let score = 0;
 let ghosts = [];
 let ghostCount = 4;
+let lives = 3;
 
 const DIRECTION_RIGHT = 4;
 const DIRECTION_UP = 3;
@@ -68,15 +69,35 @@ let randomTargetsForGhosts = [
 let gameLoop = () => {
   update();
   draw();
+  for (let i = 0; i < ghosts.length; i++) {
+    ghosts[i].moveProcess();
+  }
 };
 
 let update = () => {
   pacman.moveProcess();
   pacman.eat();
-  for(let i=0;i<ghosts.length;i++){
+  for (let i = 0; i < ghosts.length; i++) {
     ghosts[i].moveProcess();
   }
+  if (pacman.checkGhostCollison()) {
+    console.log("hit");
+    restartGame();
+  }
 };
+let restartGame = () => {
+  createNewPacman();
+  createGhosts;
+  lives--;
+  if (lives == 0) {
+    gameOver();
+  }
+};
+
+let gameOver(){
+  clearInterval(gameInterval);
+
+}
 
 let drawFoods = () => {
   for (let i = 0; i < map.length; i++) {
